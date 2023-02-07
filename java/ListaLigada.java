@@ -95,19 +95,24 @@ public class ListaLigada implements EstruturaDeDados{
     }
 
     public static void main(String[] args) {
-        for (int i = 0; i < 100; i++) {
-            System.out.println(i);
-            if (i == 50){
-                break;
-            }
-        }
-        System.out.println("fim");
+      
     }
 
     @Override
     public boolean insert(int chave) {
-        // TODO Auto-generated method stub
-        return false;
+        if (inicio == null){
+            inicio = new No (chave);
+            inicio.setProximo(null);
+            return true ;
+        }
+        else { 
+          No no = new No(chave);
+          no.setProximo(inicio);
+          inicio= no;
+          return true;
+            
+        }
+        
     }
 
     @Override
@@ -117,9 +122,8 @@ public class ListaLigada implements EstruturaDeDados{
     }
 
     @Override
-    public boolean search(int chave) {
-        // TODO Auto-generated method stub
-        return false;
+    public boolean search (int chave ) {
+         return procura(chave);
     }
 
     @Override
@@ -145,4 +149,5 @@ public class ListaLigada implements EstruturaDeDados{
         // TODO Auto-generated method stub
         return 0;
     }
+    
 }

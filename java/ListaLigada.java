@@ -1,3 +1,5 @@
+import java.security.cert.CertPathValidatorResult;
+
 public class ListaLigada implements EstruturaDeDados{
     private No inicio;
 
@@ -109,7 +111,7 @@ public class ListaLigada implements EstruturaDeDados{
           No no = new No(chave);
           no.setProximo(inicio);
           inicio= no;
-          return true;
+          return false;
             
         }
         
@@ -117,18 +119,39 @@ public class ListaLigada implements EstruturaDeDados{
 
     @Override
     public boolean delete(int chave) {
-        // TODO Auto-generated method stub
-        return false;
+        if (inicio.getValor()== chave ) {
+            inicio = null;
+            return true ;
+        }
+        else {
+            inicio.setProximo(null);
+            return false;
+
+        }
+
+        
     }
 
     @Override
     public boolean search (int chave ) {
-         return procura(chave);
-    }
+         if (inicio.getValor()==chave) { 
+             return true;
+         }
+         else {
+            
+            return  ProcuraNO(inicio, chave);
+
+         }
+         } 
+
+         
+    
 
     @Override
     public int minimum() {
-        // TODO Auto-generated method stub
+        if () {
+            
+        }
         return 0;
     }
 
@@ -140,14 +163,50 @@ public class ListaLigada implements EstruturaDeDados{
 
     @Override
     public int sucessor(int chave) {
-        // TODO Auto-generated method stub
-        return 0;
+        if (inicio.getValor() == chave ) {
+            return inicio.getProximo().getValor();
+            
+        }
+        else {
+            return anterior2(chave,inicio);
+        }
     }
 
     @Override
     public int prodessor(int chave) {
-        // TODO Auto-generated method stub
-        return 0;
+        if (inicio.getValor()== chave ) {
+            return inicio.getProximo().getValor();
+            
+        }
+        else {
+            return inicio.getProximo().getProximo().getValor();
+        }
+        
     }
-    
-}
+    public boolean ProcuraNO( No no, int chave){
+        if (no.getValor()== chave ) {
+            return true ;
+        }
+        else if (no.getProximo()== null){
+            return false;
+        
+        }
+        else {
+            return ProcuraNO(no, chave);
+        }
+        
+    } 
+    public int anterior2 (  int chave, No no ){
+        if (no.getValor() == chave ) {
+            return no.getProximo().getValor();
+        }
+        else if (no.getProximo()== null){
+            return 0;
+        
+        }
+        else {
+            return anterior2(chave, no);
+        }
+
+    }
+    }

@@ -108,10 +108,9 @@ public class ListaLigada implements EstruturaDeDados{
             return true ;
         }
         else { 
-          No no = new No(chave);
-          no.setProximo(inicio);
-          inicio= no;
-          return false;
+            insert2(inicio, chave);
+            return true;
+            
             
         }
         
@@ -119,14 +118,12 @@ public class ListaLigada implements EstruturaDeDados{
 
     @Override
     public boolean delete(int chave) {
-        if (inicio.getValor()== chave ) {
-            inicio = null;
-            return true ;
+         if (inicio.getValor()==chave){
+            inicio=inicio.getProximo();
+          return true ;
         }
-        else {
-            inicio.setProximo(null);
-            return false;
-
+        else{
+            return delete2(inicio, chave);
         }
 
         
@@ -134,7 +131,10 @@ public class ListaLigada implements EstruturaDeDados{
 
     @Override
     public boolean search (int chave ) {
-         if (inicio.getValor()==chave) { 
+        if (inicio== null){
+            return false;
+        }
+         else if (inicio.getValor()==chave) { 
              return true;
          }
          else {
@@ -149,40 +149,86 @@ public class ListaLigada implements EstruturaDeDados{
 
     @Override
     public int minimum() {
-        if () {
-            
+        if (this.inicio==null) {
+            return 0;
         }
-        return 0;
+        else {
+            int min= this.inicio.getValor();
+            if(inicio.getProximo() == null){
+                return min;
+            } else {
+                return funçaomin(this.inicio,min);
+            }
+        }
+    
+    }
+    public int funçaomin(No no, int min){
+        int menor = min ;
+        if (no.getProximo()== null){
+            return min;
+        }
+        if(no.getProximo().getValor()<min){
+            menor = no.getProximo().getValor();
+        }
+        return funçaomin(no.getProximo(), menor);
     }
 
     @Override
     public int maximum() {
-        // TODO Auto-generated method stub
-        return 0;
+        if (this.inicio==null) {
+            return -1;
+        }
+        else {
+            int max= this.inicio.getValor();
+            if(inicio.getProximo() == null){
+                return max;
+            } else {
+                return funcaomax(this.inicio,max);
+            }
+        }
+        }
+          
+    
+    public int funcaomax(No no, int max){
+        int maior = max;
+        if (no.getProximo()== null ) {
+            return max;
+        }
+        if(no.getProximo().getValor()>max){
+            maior = no.getProximo().getValor();
+        }
+        return funcaomax(no.getProximo(),maior);
     }
+        
+   
+        
+        
+        
+        
+    
 
     @Override
     public int sucessor(int chave) {
         if (inicio.getValor() == chave ) {
             return inicio.getProximo().getValor();
-            
         }
-        else {
-            return anterior2(chave,inicio);
-        }
-    }
+     else {
+        return sucessor2(inicio,chave);
+     }
+     
 
+     }
+    
     @Override
     public int prodessor(int chave) {
-        if (inicio.getValor()== chave ) {
-            return inicio.getProximo().getValor();
-            
+        if ( inicio.getValor()== chave ){
+            return -1;
         }
         else {
-            return inicio.getProximo().getProximo().getValor();
+           return  anterior2(inicio, chave);
         }
-        
-    }
+        }
+    
     public boolean ProcuraNO( No no, int chave){
         if (no.getValor()== chave ) {
             return true ;
@@ -192,21 +238,57 @@ public class ListaLigada implements EstruturaDeDados{
         
         }
         else {
-            return ProcuraNO(no, chave);
+            return ProcuraNO(no.getProximo(), chave);
         }
         
     } 
-    public int anterior2 (  int chave, No no ){
-        if (no.getValor() == chave ) {
+    public int sucessor2 (No no, int chave){
+        if (no.getValor()== chave ){
             return no.getProximo().getValor();
+        }
+        else if (no.getProximo().getProximo()==null ){
+           
+            return 0;
+        }
+        else {
+            return sucessor2(no.getProximo(), chave);
+        }
+    }
+    public int anterior2(No no, int chave ){
+        if (no.getProximo().getValor() == chave  ){
+            return no.getValor();
+            
         }
         else if (no.getProximo()== null){
             return 0;
-        
         }
         else {
-            return anterior2(chave, no);
+            return anterior2(no.getProximo(), chave);
         }
+    } public void insert2(No no, int chave){
+        if(no.getProximo()==null) {
+            No no2= new No(chave );
+            no.setProximo(no2);
+        }
+        else {
+            insert2(no.getProximo(), chave);
 
+        }
+        
+        
     }
+    public boolean delete2(No no, int chave ){
+        No delete = no.getProximo();
+        if(no.getProximo()== null){
+            return true;
+        }
+        else if(no.getProximo().getValor()==chave){
+            no.setProximo(delete.getProximo());;
+            return true  ;
+        }
+        else {
+            return delete2(no.getProximo(),chave);
+        }
+    }
+ 
     }
